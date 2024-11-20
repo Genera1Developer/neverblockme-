@@ -50,17 +50,63 @@
     </style>
 </head>
 <body>
-    <div class="container" onclick="openURL()">
-        <p>NEVER BLOCKED</p>
+    <div class="container" onclick="loadGitHubSite()">
+        <p>Click me to open Pulsar site inside about:blank!</p>
     </div>
 
     <script>
-        function openURL() {
+        function loadGitHubSite() {
             // Open a new about:blank window
             var newWindow = window.open('about:blank', '_blank');
 
-            // After opening the blank window, change the location to the desired URL
-            newWindow.location.href = 'https://pulsarnet.thebest.fr.xhalarin.com/';
+            // Fetch the raw HTML content from GitHub
+            fetch('https://raw.githubusercontent.com/AbominableGames/Pulsar/main/public/index.html')
+                .then(response => response.text())
+                .then(html => {
+                    // Inject the HTML content into the about:blank window
+                    newWindow.document.open();
+                    newWindow.document.write(html);
+                    newWindow.document.close();
+
+                    // Now that the HTML is loaded, fetch and inject the CSS, JS, and images
+                    injectAssets(newWindow);
+                })
+                .catch(error => {
+                    console.error('Error fetching the HTML file:', error);
+                });
+        }
+
+        function injectAssets(newWindow) {
+            // Modify the base URL for the raw assets (CSS, JS, etc.)
+            const baseUrl = 'https://raw.githubusercontent.com/AbominableGames/Pulsar/main/public/';
+
+            // Inject CSS files
+            const cssFiles = [
+                'styles.css' // Replace with the actual CSS file name from the repo
+            ];
+
+            cssFiles.forEach(file => {
+                const cssLink = document.createElement('link');
+                cssLink.rel = 'stylesheet';
+                cssLink.href = baseUrl + file;
+                newWindow.document.head.appendChild(cssLink);
+            });
+
+            // Inject JS files
+            const jsFiles = [
+                'scripts.js' // Replace with the actual JS file name from the repo
+            ];
+
+            jsFiles.forEach(file => {
+                const script = document.createElement('script');
+                script.src = baseUrl + file;
+                script.onload = () => console.log(`${file} loaded`);
+                newWindow.document.body.appendChild(script);
+            });
+
+            // Dynamically inject any images or other assets
+            // For example, if there are image references, you would need to fix their paths
+            // (e.g., change relative paths like './img/logo.png' to raw GitHub links)
         }
     </script>
 </body>
