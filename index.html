@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduConnect Hub</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #333333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      header {
+        background-color: #4caf50;
+        color: white;
+        padding: 20px 0;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2em;
+      }
+
+      header p {
+        margin: 0;
+        font-size: 1em;
+      }
+
+      .content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .search-bar {
+        width: 100%;
+        max-width: 600px;
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      input {
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #cccccc;
+        outline: none;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        background-color: #4caf50;
+        color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      button:hover {
+        background-color: #388e3c;
+      }
+
+      iframe {
+        width: 100%;
+        height: 70vh;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+
+      footer {
+        background-color: #333333;
+        color: #ffffff;
+        padding: 10px 0;
+        text-align: center;
+        width: 100%;
+        font-size: 0.8em;
+      }
+
+      footer a {
+        color: #4caf50;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>EduConnect Hub</h1>
+      <p>Your Gateway to Learning Resources A</p>
+    </header>
+    <div class="content">
+      <div class="search-bar">
+        <input
+          type="text"
+          id="urlInput"
+          placeholder="Enter an educational resource URL (e.g., https://example.com)"
+        />
+        <button onclick="navigate()">Access</button>
+      </div>
+      <iframe id="iframe" src="" hidden></iframe>
+    </div>
+    <footer>
+      <p>
+        © 2024 EduConnect. All rights reserved. |
+        <a href="/about">About Us</a> | <a href="/privacy">Privacy Policy</a>
+      </p>
+    </footer>
+
+    <script>
+      function navigate() {
+        const input = document.getElementById("urlInput");
+        const iframe = document.getElementById("iframe");
+        const url = input.value.trim();
+
+        if (!url) {
+          alert("Please enter a valid URL.");
+          return;
+        }
+
+        const fullUrl = `/url?url=${encodeURIComponent(url)}`;
+        iframe.src = fullUrl;
+        iframe.hidden = false;
+      }
+    </script>
+  </body>
+</html>
